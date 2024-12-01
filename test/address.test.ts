@@ -1,5 +1,5 @@
+import Address from "../src/address";
 import { expect, test } from "bun:test";
-import Address from "./address";
 
 // Test IPv4 address creation from bytes
 test("Address.fromIPv4Bytes - valid input", () => {

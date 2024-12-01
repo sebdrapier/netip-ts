@@ -1,0 +1,5 @@
+src/
+tests/
+*.ts
+*.md
+!.npmignore

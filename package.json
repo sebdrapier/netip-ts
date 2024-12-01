@@ -1,5 +1,27 @@
 {
   "name": "netip-ts",
+  "version": "1.0.0",
+  "description": "A TypeScript library for parsing, validating, and manipulating IPv4 and IPv6 addresses, CIDR prefixes, and address-port combinations.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "bun test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebdrapier/netip-ts"
+  },
+  "keywords": [
+    "ip",
+    "address",
+    "ipv4",
+    "ipv6",
+    "cidr",
+    "networking"
+  ],
+  "author": "Sébastien Drapier <seb.drapier95@gmail.com>",
+  "license": "MIT",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
@@ -7,5 +29,8 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

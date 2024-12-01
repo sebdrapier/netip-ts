@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import Address from "./address";
+import Address from "../src/address";
 
 const extendedTestCases = [
   // IPv4 cases
