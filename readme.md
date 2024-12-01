@@ -263,27 +263,6 @@ try {
 
 Contributions are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
 
-### Development Setup
-
-1. **Clone the Repository**:
-
-   ```bash
-   git clone https://github.com/yourusername/address-library.git
-   ```
-
-2. **Install Dependencies**:
-
-   ```bash
-   cd address-library
-   npm install
-   ```
-
-3. **Run Tests**:
-
-   ```bash
-   npm test
-   ```
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
