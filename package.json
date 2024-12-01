@@ -1,6 +1,6 @@
 {
   "name": "netip-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A TypeScript library for parsing, validating, and manipulating IPv4 and IPv6 addresses, CIDR prefixes, and address-port combinations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
