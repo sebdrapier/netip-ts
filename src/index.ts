@@ -1,3 +1,5 @@
-export * from "./address"
-export * from "./address-port"
-export * from "./address-prefix"
+import Address from "./address";
+import AddressPort from "./address-port";
+import AddressPrefix from "./address-prefix";
+
+export default { Address, AddressPort, AddressPrefix };
