@@ -1,6 +1,6 @@
 # Address Library Documentation
 
-Welcome to the **Address Library**! This library provides robust classes and methods for handling IPv4 and IPv6 addresses, prefixes (CIDR notation), and address-port combinations in TypeScript. It supports parsing, validation, serialization, and various utility functions to work with IP addresses effectively.
+netip-ts is a TypeScript implementation inspired by the Go netip library. It provides robust classes and methods for handling IPv4 and IPv6 addresses, prefixes (CIDR notation), and address-port combinations. With a focus on correctness and simplicity, it supports parsing, validation, serialization, and various utility functions to work with IP addresses effectively.
 
 ## Table of Contents
 
