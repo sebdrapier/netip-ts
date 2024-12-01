@@ -236,3 +236,66 @@ test("AddressPrefix.masked - invalid prefix", () => {
   expect(maskedPrefix.isValid()).toBe(false);
   expect(maskedPrefix.toString()).toBe("");
 });
+
+// Test AddressPrefix.getRange - IPv4 /24
+test("AddressPrefix.getRange - IPv4 /24", () => {
+  const prefix = AddressPrefix.parsePrefix("192.168.1.0/24");
+  const range = prefix.getRanges();
+  expect(range).toEqual({ from: "192.168.1.0", to: "192.168.1.255" });
+});
+
+// Test AddressPrefix.getRange - IPv4 /32
+test("AddressPrefix.getRange - IPv4 /32", () => {
+  const prefix = AddressPrefix.parsePrefix("10.0.0.1/32");
+  const range = prefix.getRanges();
+  expect(range).toEqual({ from: "10.0.0.1", to: "10.0.0.1" });
+});
+
+// Test AddressPrefix.getRange - IPv6 /32
+test("AddressPrefix.getRange - IPv6 /32", () => {
+  const prefix = AddressPrefix.parsePrefix("2001:db8::/32");
+  const range = prefix.getRanges();
+  expect(range).toEqual({
+    from: "2001:db8::",
+    to: "2001:db8:ffff:ffff:ffff:ffff:ffff:ffff",
+  });
+});
+
+// Test AddressPrefix.getRange - IPv6 /128
+test("AddressPrefix.getRange - IPv6 /128", () => {
+  const prefix = AddressPrefix.parsePrefix("2001:db8::1/128");
+  const range = prefix.getRanges();
+  expect(range).toEqual({
+    from: "2001:db8::1",
+    to: "2001:db8::1",
+  });
+});
+
+// Test AddressPrefix.getRange - invalid prefix
+test("AddressPrefix.getRange - invalid prefix", () => {
+  const invalidAddress = new Address(new Uint8Array());
+  const invalidPrefix = new AddressPrefix(invalidAddress, 24);
+  expect(() => invalidPrefix.getRanges()).toThrow(
+    "Invalid AddressPrefix. Cannot compute range."
+  );
+});
+
+// Test AddressPrefix.getRange - IPv4 /0
+test("AddressPrefix.getRange - IPv4 /0", () => {
+  const prefix = AddressPrefix.parsePrefix("0.0.0.0/0");
+  const range = prefix.getRanges();
+  expect(range).toEqual({
+    from: "0.0.0.0",
+    to: "255.255.255.255",
+  });
+});
+
+// Test AddressPrefix.getRange - IPv6 /0
+test("AddressPrefix.getRange - IPv6 /0", () => {
+  const prefix = AddressPrefix.parsePrefix("::/0");
+  const range = prefix.getRanges();
+  expect(range).toEqual({
+    from: "::",
+    to: "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+  });
+});

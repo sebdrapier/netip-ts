@@ -283,4 +283,55 @@ export default class AddressPrefix {
     }
     return `${this.address.toString()}/${this.bits}`;
   }
+
+  /**
+   * Calculates the range of IP addresses within the CIDR prefix.
+   *
+   * The range includes the first address (network address) and the last address
+   * (broadcast address for IPv4 or the equivalent for IPv6). It computes this range
+   * by applying the prefix mask to the starting address and then calculating
+   * the maximum possible value for the host portion of the address.
+   *
+   * @returns {Object} An object containing the range of IP addresses:
+   * - `from`: The first address in the range (network address).
+   * - `to`: The last address in the range.
+   * @throws {Error} If the prefix is invalid.
+   */
+  getRanges(): { from: string; to: string } {
+    if (!this.isValid()) {
+      throw new Error("Invalid AddressPrefix. Cannot compute range.");
+    }
+
+    const totalBits = this.address.bitLength();
+    const maskedAddress = this.address.mask(this.bits);
+    const startAddress = maskedAddress;
+
+    const remainingBits = totalBits - this.bits;
+    const maxHostValue = (1n << BigInt(remainingBits)) - 1n;
+
+    // Convert maskedAddress to BigInt
+    const addressBytes = maskedAddress.toByteArray();
+    let addressValue = BigInt(0);
+    for (let i = 0; i < addressBytes.length; i++) {
+      addressValue = (addressValue << 8n) | BigInt(addressBytes[i]);
+    }
+
+    // Compute end address value
+    const endAddressValue = addressValue + maxHostValue;
+
+    // Convert endAddressValue back to bytes
+    const endBytes = new Uint8Array(addressBytes.length);
+    let value = endAddressValue;
+    for (let i = endBytes.length - 1; i >= 0; i--) {
+      endBytes[i] = Number(value & 0xffn);
+      value = value >> 8n;
+    }
+
+    const endAddress = new Address(endBytes, this.address.getZone());
+
+    return {
+      from: startAddress.toString(),
+      to: endAddress.toString(),
+    };
+  }
 }
