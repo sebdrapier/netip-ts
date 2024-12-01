@@ -597,18 +597,18 @@ export default class Address {
 
     return new Address(bytes);
   }
-  
+
   /**
    * Parses a string as an IPv6 address.
    * @param inStr - The IPv6 address string.
    * @returns A new Address instance.
    */
-  private static parseIPv6Address (inStr: string): Address {
+  private static parseIPv6Address(inStr: string): Address {
     let s = inStr;
 
     // Split off the zone right from the start.
     let zone = "";
-    let zoneIndex = s.indexOf('%');
+    let zoneIndex = s.indexOf("%");
     if (zoneIndex !== -1) {
       zone = s.substring(zoneIndex + 1);
       s = s.substring(0, zoneIndex);
@@ -621,7 +621,7 @@ export default class Address {
     let ellipsis = -1;
 
     // Might have leading ellipsis
-    if (s.length >= 2 && s.charAt(0) === ':' && s.charAt(1) === ':') {
+    if (s.length >= 2 && s.charAt(0) === ":" && s.charAt(1) === ":") {
       ellipsis = 0;
       s = s.substring(2);
       // Might be only ellipsis
@@ -639,32 +639,38 @@ export default class Address {
       for (; off < s.length; off++) {
         const c = s.charAt(off);
         const ccode = s.charCodeAt(off);
-        if (c >= '0' && c <= '9') {
-          acc = (acc << 4) + (ccode - '0'.charCodeAt(0));
-        } else if (c >= 'a' && c <= 'f') {
-          acc = (acc << 4) + (ccode - 'a'.charCodeAt(0) + 10);
-        } else if (c >= 'A' && c <= 'F') {
-          acc = (acc << 4) + (ccode - 'A'.charCodeAt(0) + 10);
+        if (c >= "0" && c <= "9") {
+          acc = (acc << 4) + (ccode - "0".charCodeAt(0));
+        } else if (c >= "a" && c <= "f") {
+          acc = (acc << 4) + (ccode - "a".charCodeAt(0) + 10);
+        } else if (c >= "A" && c <= "F") {
+          acc = (acc << 4) + (ccode - "A".charCodeAt(0) + 10);
         } else {
           break;
         }
         if (off > 3) {
           throw new Error("Each group must have 4 or fewer digits");
         }
-        if (acc > 0xFFFF) {
+        if (acc > 0xffff) {
           throw new Error("IPv6 field has value >= 2^16");
         }
       }
       if (off === 0) {
-        throw new Error("Each colon-separated field must have at least one digit");
+        throw new Error(
+          "Each colon-separated field must have at least one digit"
+        );
       }
 
-      if (off < s.length && s.charAt(off) === '.') {
+      if (off < s.length && s.charAt(off) === ".") {
         if (ellipsis < 0 && zoneIndex !== 12) {
-          throw new Error("Embedded IPv4 address must replace the final 2 fields of the address");
+          throw new Error(
+            "Embedded IPv4 address must replace the final 2 fields of the address"
+          );
         }
         if (zoneIndex + 4 > 16) {
-          throw new Error("Too many hex fields to fit an embedded IPv4 at the end of the address");
+          throw new Error(
+            "Too many hex fields to fit an embedded IPv4 at the end of the address"
+          );
         }
         const ipv4Str = s;
         Address.parseIPv4Fields(ipv4Str, ip.subarray(zoneIndex, zoneIndex + 4));
@@ -675,7 +681,7 @@ export default class Address {
 
       // Save this 16-bit chunk.
       ip[zoneIndex] = acc >> 8;
-      ip[zoneIndex + 1] = acc & 0xFF;
+      ip[zoneIndex + 1] = acc & 0xff;
       zoneIndex += 2;
 
       // Stop at end of string.
@@ -685,7 +691,7 @@ export default class Address {
       }
 
       // Otherwise must be followed by colon and more.
-      if (s.charAt(0) !== ':') {
+      if (s.charAt(0) !== ":") {
         throw new Error("Unexpected character, expected colon");
       } else if (s.length === 1) {
         throw new Error("Colon must be followed by more characters");
@@ -693,7 +699,7 @@ export default class Address {
       s = s.substring(1);
 
       // Look for ellipsis.
-      if (s.charAt(0) === ':') {
+      if (s.charAt(0) === ":") {
         if (ellipsis >= 0) {
           // Already have one
           throw new Error("Multiple :: in address");
@@ -724,7 +730,6 @@ export default class Address {
       for (let j = ellipsis; j < ellipsis + n; j++) {
         ip[j] = 0;
       }
-
     } else if (ellipsis >= 0) {
       // Ellipsis must represent at least one 0 group.
       throw new Error("The :: must expand to at least one field of zeros");
@@ -738,7 +743,7 @@ export default class Address {
    * @param ip - The Uint8Array to fill with the parsed IPv4 bytes.
    */
   private static parseIPv4Fields(s: string, ip: Uint8Array): void {
-    const parts = s.split('.');
+    const parts = s.split(".");
     if (parts.length !== 4) {
       throw new Error("Invalid IPv4 address");
     }
@@ -747,7 +752,7 @@ export default class Address {
       if (part.length === 0) {
         throw new Error("Empty octet in IPv4 address");
       }
-      if (part.length > 1 && part.charAt(0) === '0') {
+      if (part.length > 1 && part.charAt(0) === "0") {
         // Leading zeroes are not allowed (to avoid octal interpretation)
         throw new Error("Invalid octet in IPv4 address");
       }
