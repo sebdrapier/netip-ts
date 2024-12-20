@@ -1,5 +1,5 @@
-import { describe, it, expect } from "bun:test";
-import Address from "../src/address";
+import { describe, expect, it } from "bun:test";
+import { Address } from "../src";
 
 const extendedTestCases = [
   // IPv4 cases

@@ -1,6 +1,5 @@
 import { expect, test } from "bun:test";
-import Address from "../src/address";
-import AddressPrefix from "../src/address-prefix.ts";
+import { Address, AddressPrefix } from "../src";
 
 // Test AddressPrefix.parsePrefix - valid IPv4
 test("AddressPrefix.parsePrefix - valid IPv4 input", () => {

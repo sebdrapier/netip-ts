@@ -1,6 +1,5 @@
 import { expect, test } from "bun:test";
-import Address from "../src/address";
-import AddressPort from "../src/address-port";
+import { Address, AddressPort } from "../src";
 
 // Test AddressPort.from
 test("AddressPort.from - valid input", () => {
