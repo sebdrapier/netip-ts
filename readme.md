@@ -162,7 +162,7 @@ The `AddressPrefix` class represents an IP address prefix in CIDR notation, defi
     Returns the Prefix in its canonical form, with all but the high bits masked off.
   - `overlaps(other: AddressPrefix): boolean`  
     Checks if this Prefix overlaps with another Prefix.
-  - `getRange(): { from: string; to: string }`  
+  - `getRanges(): { from: string; to: string }`
     Calculates the range of IP addresses within the CIDR prefix.
 
 #### AddressPrefix Usage Examples
@@ -191,7 +191,7 @@ if (prefix.contains(ip)) {
 ##### Getting the IP Range of a Prefix
 
 ```typescript
-const range = prefix.getRange();
+const range = prefix.getRanges();
 console.log(`From: ${range.from}, To: ${range.to}`);
 // Output: "From: 192.168.1.0, To: 192.168.1.255"
 ```
@@ -211,7 +211,7 @@ if (prefixA.overlaps(prefixB)) {
 
 ```typescript
 const ipv6Prefix = AddressPrefix.parsePrefix("2001:db8::/32");
-const range = ipv6Prefix.getRange();
+const range = ipv6Prefix.getRanges();
 console.log(`From: ${range.from}, To: ${range.to}`);
 // Output: "From: 2001:db8::, To: 2001:db8:ffff:ffff:ffff:ffff:ffff:ffff"
 ```
