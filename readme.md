@@ -92,7 +92,7 @@ The `Address` class represents an immutable IP address, either IPv4 or IPv6. It 
 ##### Parsing an IP Address
 
 ```typescript
-import Address from "netip-ts";
+import { Address } from "netip-ts";
 
 const ipv4Address = Address.parseAddress("192.168.1.1");
 console.log(ipv4Address.toString()); // Output: "192.168.1.1"
@@ -179,7 +179,7 @@ console.log(prefix.toString()); // Output: "192.168.1.0/24"
 ##### Checking if an IP is within a Prefix
 
 ```typescript
-import Address from "netip-ts";
+import { Address } from "netip-ts";
 
 const ip = Address.parseAddress("192.168.1.42");
 
