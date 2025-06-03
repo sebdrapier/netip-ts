@@ -579,7 +579,7 @@ export class Address {
    */
   private static parseIPv4Address(input: string): Address {
     if (input.includes("%")) {
-      throw new Error(`Invalid IPv4 addressclea `);
+      throw new Error("Invalid IPv4 address");
     }
 
     const parts = input.split(".");
