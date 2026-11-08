@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - name: Golden vectors still match latest Go net/netip
+        run: bun run golden && git diff --exit-code test/golden.json
+      - run: bun test
+      - run: bun run build
+      - run: bunx publint && bunx @arethetypeswrong/cli --pack .
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+      - name: Smoke test on Node (ESM + CJS)
+        run: |
+          node --input-type=module -e 'import {Addr} from "netip-ts"; if (Addr.parse("::1").toString() !== "::1") process.exit(1)'
+          node -e 'const {Prefix}=require("netip-ts"); if (!Prefix.parse("10.0.0.0/8").isValid()) process.exit(1)'
