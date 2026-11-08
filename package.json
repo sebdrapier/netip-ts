@@ -1,40 +1,65 @@
 {
   "name": "netip-ts",
-  "version": "1.0.4",
-  "description": "A TypeScript library for parsing, validating, and manipulating IPv4 and IPv6 addresses, CIDR prefixes, and address-port combinations.",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "version": "2.0.0",
+  "description": "Go's net/netip for TypeScript: immutable, zero-dependency IPv4/IPv6 Addr, Prefix (CIDR) and AddrPort, verified against Go.",
+  "keywords": [
+    "ip",
+    "ipv4",
+    "ipv6",
+    "cidr",
+    "subnet",
+    "prefix",
+    "netip",
+    "address",
+    "networking",
+    "parse"
+  ],
+  "homepage": "https://github.com/sebdrapier/netip-ts#readme",
+  "bugs": "https://github.com/sebdrapier/netip-ts/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebdrapier/netip-ts.git"
+  },
+  "license": "MIT",
+  "author": "Sébastien Drapier",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "build": "tsup",
-    "test": "bun test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sebdrapier/netip-ts"
-  },
-  "keywords": [
-    "ip",
-    "address",
-    "ipv4",
-    "ipv6",
-    "cidr",
-    "networking"
-  ],
-  "author": "Sébastien Drapier <seb.drapier95@gmail.com>",
-  "license": "MIT",
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest",
-    "tsup": "^8.3.5"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+    "build": "tsup && tsc src/index.ts --ignoreConfig --declaration --emitDeclarationOnly --target es2022 --outDir dist && cp dist/index.d.ts dist/index.d.cts",
+    "test": "bun test",
+    "typecheck": "tsc",
+    "golden": "go run test/golden/main.go > test/golden.json",
+    "prepublishOnly": "bun run typecheck && bun test && bun run build"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2"
   }
 }
