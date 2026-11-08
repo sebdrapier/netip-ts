@@ -1,0 +1,15 @@
+name: Feature request
+description: Suggest an addition (ideally something Go's net/netip has)
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you need and why?
+    validations:
+      required: true
+  - type: input
+    id: go
+    attributes:
+      label: Go equivalent, if any
+      placeholder: e.g. netip.Prefix.Compare
