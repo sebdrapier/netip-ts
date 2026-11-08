@@ -76,6 +76,10 @@ v2 is a rewrite that adopts Go's names and Go's strictness. The changes:
 - `mask(bits)` → `prefix(bits).addr()`. The constructors are now private (use `from*`/`parse`), and the `marshalText`/`unmarshal*` instance methods are gone in favor of `toJSON()` and the static `unmarshalBinary()`.
 - **Behavior fixes that follow Go:** leading-zero IPv4 octets are rejected, private addresses now count as global unicast, the predicates unmap `::ffff:` addresses, IPv6 output follows RFC 5952 (v1 compressed the wrong run of zeros), IPv4-mapped `AddrPort`s print with brackets, and trailing garbage such as `1.2.3.4x` is rejected.
 
+## Contributing
+
+Issues and PRs welcome, see [CONTRIBUTING.md](CONTRIBUTING.md). This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md).
+
 ## License
 
 [MIT](LICENSE)

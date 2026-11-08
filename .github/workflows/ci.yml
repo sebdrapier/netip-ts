@@ -8,9 +8,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@v7
         with:
           go-version: stable
       - run: bun install --frozen-lockfile
@@ -20,7 +20,7 @@ jobs:
       - run: bun test
       - run: bun run build
       - run: bunx publint && bunx @arethetypeswrong/cli --pack .
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: lts/*
       - name: Smoke test on Node (ESM + CJS)
